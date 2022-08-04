@@ -1,46 +1,133 @@
-# Getting Started with Create React App
+# yorkie-tldraw
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+A real-time collaboration whiteboard demo project for [yorkie-js-sdk](https://github.com/yorkie-team/yorkie-js-sdk) using [tldraw](https://github.com/tldraw/tldraw)
 
-In the project directory, you can run:
+Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/)
 
-### `yarn start`
+![screenshot.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/163d11d6-7903-4569-b748-66735a548e5f/screenshot.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Table of Contents
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `yarn test`
+- Getting Started
+    - Prerequisites
+    - Instructions
+- Development
+    - Project Requirements
+    - Project Structure
+    - About Yorkie
+    - Deployment
+- Roadmap (WIP)
+- License
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `yarn build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If you are new to yorkie or tldraw and you just want to play around, just clone this repository and follow instructions bellow.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `yarn` or `npm` for client package manager
+- `Docker`, `Docker Compose` for server application manager
 
-### `yarn eject`
+### Instructions
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+# clone repository
+git clone https://github.com/Krapi0314/yorkie-tldraw.git
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# change to project directory 
+cd yorkie-tldraw
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# change to docker directory
+cd docker
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+# start local server with docker compose
+docker-compose up --build -d
 
-## Learn More
+# go back to project root directory
+cd ..
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# install client modules
+yarn
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# start project and play around!
+yarn start
+```
+
+## Development
+
+---
+
+### Project Components
+
+- `React.js` for project base framework
+    - For more information, follow: [https://create-react-app.dev/docs/getting-started/](https://create-react-app.dev/docs/getting-started/)
+- `@tldraw/tldraw` for React based canvas/svg whiteboard
+    - For more information, follow: [https://github.com/tldraw/tldraw](https://github.com/tldraw/tldraw)
+- `yorkie-js-sdk` for real-time collaboration sdk for web clients
+    - For more information, follow: [https://github.com/yorkie-team/yorkie-js-sdk](https://github.com/yorkie-team/yorkie-js-sdk)
+- `yorkie server` for server between yorkie clients
+    - For more information, follow: [https://yorkie.dev/docs/server-for-web](https://yorkie.dev/docs/server-for-web)
+
+### Project Structure
+
+**Client**
+
+- `src`
+    - `multiplayer`
+        - `useMultiplayerState.ts` (mutliplayer state using yorkie and tldraw event callbacks)
+    - `App.tsx` (React project entry point which contains tldraw editor component customed by useMultiplayerState.ts)
+
+**Server**
+
+- `docker-compose`
+    - `envoy`(gRPC web Proxy), `yorkie server`(with gRPC Server), `mongoDB/in-memory DB` (database)
+
+### About Yorkie
+
+Yorkie is an open source document store for building collaborative editing applications. Yorkie uses JSON-like documents(CRDT) with optional types.
+
+Yorkie references
+
+- Yorkie Github: [https://github.com/yorkie-team/yorkie](https://github.com/yorkie-team/yorkie)
+- Yorkie Docs: [https://yorkie.dev/](https://yorkie.dev/)
+
+### Deployment
+
+[http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/) deployment structure are shown below
+
+```
+[client]
+ ㄴ yorkie.rubatoo.com               - [Github, gh-pages]  # for serving static pages
+[server] 
+	ㄴ (domain name not configured)    - [AWS ALB]  # api gateway with load balancing
+		ㄴ envoy - yorkie server - memDB - [AWS EC2]  # ec2 instance for api server
+```
+
+## Roadmap
+
+---
+
+### **Phase 1**
+
+- [x]  tldraw + yorkie Step 1: yorkie doc update TDShape
+- [x]  tldraw + yorkie Step 2: yorkie presence with peer awareness
+- [ ]  customize tldraw core: cursor with name
+
+### **Phase 2**
+
+- [ ]  enable asset (image/video) feature
+    - [ ]  setting storage bucket for media files (ex: AWS S3)
+        - [ ]  setting up presigned url with lambda (optional)
+- [ ]  undoManager with Yorkie history API (not implemented)
+
+### **Phase 3**
+
+- [ ]  implement creative interaction features in tldraw
+    - [ ]  collaborative reaction
+    - [ ]  …
