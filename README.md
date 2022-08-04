@@ -1,16 +1,12 @@
 # yorkie-tldraw
 
----
-
 A real-time collaboration whiteboard demo project for [yorkie-js-sdk](https://github.com/yorkie-team/yorkie-js-sdk) using [tldraw](https://github.com/tldraw/tldraw)
 
 Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/)
 
-![screenshot.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/163d11d6-7903-4569-b748-66735a548e5f/screenshot.png)
+![yorkie-tldraw screenshot](./screenshot/screenshot.png)
 
 ## Table of Contents
-
----
 
 - Getting Started
     - Prerequisites
@@ -24,8 +20,6 @@ Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/)
 - License
 
 ## Getting Started
-
----
 
 If you are new to yorkie or tldraw and you just want to play around, just clone this repository and follow instructions bellow.
 
@@ -60,8 +54,6 @@ yarn start
 ```
 
 ## Development
-
----
 
 ### Project Components
 
@@ -103,15 +95,13 @@ Yorkie references
 
 ```
 [client]
- ㄴ yorkie.rubatoo.com               - [Github, gh-pages]  # for serving static pages
+ ㄴ yorkie.rubatoo.com              - [Github, gh-pages]  # for serving static pages
 [server] 
-	ㄴ (domain name not configured)    - [AWS ALB]  # api gateway with load balancing
-		ㄴ envoy - yorkie server - memDB - [AWS EC2]  # ec2 instance for api server
+ ㄴ (domain name not configured)    - [AWS ALB]  # api gateway with load balancing
+  ㄴ envoy - yorkie server - memDB  - [AWS EC2]  # ec2 instance for api server
 ```
 
 ## Roadmap
-
----
 
 ### **Phase 1**
 
