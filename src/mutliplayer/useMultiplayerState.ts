@@ -90,7 +90,8 @@ export function useMultiplayerState(roomId: string) {
 
       // WARNING: hard-coded section --------
       // parse proxy object to record
-      let shapeRecord: Record<string, TDShape> = JSON.parse(JSON.parse(JSON.stringify(root.shapes)))
+      let shapeJSON = JSON.stringify(root.shapes).replace(/\\\\\'/g, "'")
+      let shapeRecord: Record<string, TDShape> = JSON.parse(JSON.parse(shapeJSON))
       let bindingRecord: Record<string, TDBinding> = JSON.parse(JSON.parse(JSON.stringify(root.bindings)))
       
       // replace page content with changed(propagated) records
