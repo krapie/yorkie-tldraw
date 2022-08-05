@@ -2,6 +2,8 @@
 
 A real-time collaboration whiteboard demo project for [yorkie-js-sdk](https://github.com/yorkie-team/yorkie-js-sdk) using [tldraw](https://github.com/tldraw/tldraw)
 
+Building real-time collaboration whiteboard using yorkie & tldraw (demo) Youtube link (KOR): https://youtu.be/2FH63ldefPw
+
 Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/)
 
 ![yorkie-tldraw screenshot](./screenshot/screenshot.png)
