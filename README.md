@@ -4,7 +4,7 @@ A real-time collaboration whiteboard demo project for [yorkie-js-sdk](https://gi
 
 Building real-time collaboration whiteboard using yorkie & tldraw (demo) Youtube link (KOR): https://youtu.be/2FH63ldefPw
 
-Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/)
+Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/) **(!! Service is currently unstable, will be fixed in 1~2 weeks, for more information see Roadmap)**
 
 ![yorkie-tldraw screenshot](./screenshot/screenshot.png)
 
@@ -110,6 +110,7 @@ Yorkie references
 - [x]  tldraw + yorkie Step 1: yorkie doc update TDShape
 - [x]  tldraw + yorkie Step 2: yorkie presence with peer awareness
 - [ ]  customize tldraw core: cursor with name
+- [ ]  Yorkie clustering server on AWS using LB, ec2s, and etcd
 
 ### **Phase 2**
 
