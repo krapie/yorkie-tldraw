@@ -17,6 +17,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@react-hook/throttle": "^2.2.0",
     "@tldraw/tldraw": "^1.20.0",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",

@@ -1,4 +1,5 @@
 import { TDBinding, TDShape, TDUser, TldrawApp } from '@tldraw/tldraw'
+import {useThrottle, useThrottleCallback} from '@react-hook/throttle'
 import { useCallback, useEffect, useState } from 'react'
 import * as yorkie from 'yorkie-js-sdk'
 
@@ -31,13 +32,46 @@ export function useMultiplayerState(roomId: string) {
   )
 
   // Update Yorkie doc when the app's shapes change.
-  const onChangePage = useCallback(
+  // preventing overhead yorkie update api call by throttle
+  const onChangePage = useThrottleCallback(
     (
       app: TldrawApp,
       shapes: Record<string, TDShape | undefined>,
       bindings: Record<string, TDBinding | undefined>
     ) => {
       if (client === undefined || doc === undefined) return
+      
+      
+      doc.update((root) => {
+        Object.entries(shapes).forEach(([id, shape]) => {
+          if (!shape) {
+            delete root.shapes[id]
+          } else {
+            root.shapes[id] = shape
+          }
+        })
+        Object.entries(bindings).forEach(([id, binding]) => {
+          if (!binding) {
+            delete root.bindings[id]
+          } else {
+            root.bindings[id] = binding
+          }
+        })
+      })
+    },
+    30,
+    false
+  )
+
+  // !!!! NEED TO THROTTLE THIS CALLBACK
+  const onChangePages = useCallback(
+    (
+      app: TldrawApp,
+      shapes: Record<string, TDShape | undefined>,
+      bindings: Record<string, TDBinding | undefined>
+    ) => {
+      if (client === undefined || doc === undefined) return
+      
       
       doc.update((root) => {
         Object.entries(shapes).forEach(([id, shape]) => {
@@ -107,6 +141,8 @@ export function useMultiplayerState(roomId: string) {
           presence: {
             user: app?.currentUser,
           },
+          syncLoopDuration: 0,
+          reconnectStreamDelay: 1000
         }
         client = new yorkie.Client(
           `${process.env.REACT_APP_RPCADDR_ADDR}`, options
@@ -151,7 +187,10 @@ export function useMultiplayerState(roomId: string) {
 
         // 04. subscribe document event and handle changes
         doc.subscribe((event) => {
-          handleChanges()
+          if (event.type === 'remote-change') {
+            console.log(event.value)
+            handleChanges()
+          }
         })
 
         // 05. sync client
