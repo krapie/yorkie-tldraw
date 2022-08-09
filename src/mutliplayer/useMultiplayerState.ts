@@ -23,6 +23,7 @@ export function useMultiplayerState(roomId: string) {
   const onMount = useCallback(
     (app: TldrawApp) => {
       app.loadRoom(roomId)
+      app.setIsLoading(true)
       app.pause()
       setApp(app)
     },
@@ -160,12 +161,13 @@ export function useMultiplayerState(roomId: string) {
           // Update the document with initial content
           handleChanges()
 
-          // Zoom to fit the content
+          // Zoom to fit the content & finish loading
           if (app) {
             app.zoomToFit()
             if (app.zoom > 1) {
               app.resetZoom()
             }
+            app.setIsLoading(false)
           }
 
           setLoading(false)
