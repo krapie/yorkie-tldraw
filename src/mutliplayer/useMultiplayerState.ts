@@ -1,4 +1,5 @@
 import { TDBinding, TDShape, TDUser, TldrawApp } from '@tldraw/tldraw'
+import {useThrottle, useThrottleCallback} from '@react-hook/throttle'
 import { useCallback, useEffect, useState } from 'react'
 import * as yorkie from 'yorkie-js-sdk'
 
@@ -7,7 +8,6 @@ let client: yorkie.Client<yorkie.Indexable>
 
 // 0. Yorkie Document declaration
 let doc: yorkie.Document<yorkie.Indexable>
-
 
 // 0. Yorkie type for typescript
 type YorkieType = {
@@ -24,6 +24,7 @@ export function useMultiplayerState(roomId: string) {
   const onMount = useCallback(
     (app: TldrawApp) => {
       app.loadRoom(roomId)
+      app.setIsLoading(true)
       app.pause()
       setApp(app)
     },
@@ -31,13 +32,46 @@ export function useMultiplayerState(roomId: string) {
   )
 
   // Update Yorkie doc when the app's shapes change.
-  const onChangePage = useCallback(
+  // preventing overhead yorkie update api call by throttle
+  const onChangePage = useThrottleCallback(
     (
       app: TldrawApp,
       shapes: Record<string, TDShape | undefined>,
       bindings: Record<string, TDBinding | undefined>
     ) => {
       if (client === undefined || doc === undefined) return
+      
+      
+      doc.update((root) => {
+        Object.entries(shapes).forEach(([id, shape]) => {
+          if (!shape) {
+            delete root.shapes[id]
+          } else {
+            root.shapes[id] = shape
+          }
+        })
+        Object.entries(bindings).forEach(([id, binding]) => {
+          if (!binding) {
+            delete root.bindings[id]
+          } else {
+            root.bindings[id] = binding
+          }
+        })
+      })
+    },
+    30,
+    false
+  )
+
+  // !!!! NEED TO THROTTLE THIS CALLBACK
+  const onChangePages = useCallback(
+    (
+      app: TldrawApp,
+      shapes: Record<string, TDShape | undefined>,
+      bindings: Record<string, TDBinding | undefined>
+    ) => {
+      if (client === undefined || doc === undefined) return
+      
       
       doc.update((root) => {
         Object.entries(shapes).forEach(([id, shape]) => {
@@ -58,7 +92,7 @@ export function useMultiplayerState(roomId: string) {
     },
     []
   )
-  
+
   // undoManager will be implemented in further demo
   const onUndo = useCallback(() => {
   }, [])
@@ -74,8 +108,8 @@ export function useMultiplayerState(roomId: string) {
     // need to limit rate of callback invocation
     // setting rate limit by prime numbers
     const time = new Date().getTime()
-    if(time % 19 !== 0) return
-    
+    if (time % 19 !== 0) return
+
     client.updatePresence("user", user)
   }, [])
 
@@ -90,16 +124,15 @@ export function useMultiplayerState(roomId: string) {
 
       // WARNING: hard-coded section --------
       // parse proxy object to record
-      let shapeJSON = JSON.stringify(root.shapes).replace(/\\\\\'/g, "'")
-      let shapeRecord: Record<string, TDShape> = JSON.parse(JSON.parse(shapeJSON))
-      let bindingRecord: Record<string, TDBinding> = JSON.parse(JSON.parse(JSON.stringify(root.bindings)))
-      
+      let shapeRecord: Record<string, TDShape> = JSON.parse(root.shapes.toJSON().replace(/\\\'/g, "'"))
+      let bindingRecord: Record<string, TDBinding> = JSON.parse(root.bindings.toJSON())
+
       // replace page content with changed(propagated) records
       app?.replacePageContent(shapeRecord, bindingRecord, {})
     }
-    
+
     let stillAlive = true
-    
+
     // Setup the document's storage and subscriptions
     async function setupDocument() {
       try {
@@ -108,12 +141,14 @@ export function useMultiplayerState(roomId: string) {
           presence: {
             user: app?.currentUser,
           },
+          syncLoopDuration: 0,
+          reconnectStreamDelay: 1000
         }
         client = new yorkie.Client(
           `${process.env.REACT_APP_RPCADDR_ADDR}`, options
         )
         await client.activate()
-        
+
         // 01-1. subscribe peers-changed event and update tldraw users state
         client.subscribe((event) => {
           if (event.type === 'peers-changed') {
@@ -121,9 +156,9 @@ export function useMultiplayerState(roomId: string) {
 
             let users: TDUser[] = []
             for (const [clientID, presence] of Object.entries(peers)) {
-             users.push(presence.user)
+              users.push(presence.user)
             }
-            
+
             // WARNING: hard-coded section --------
             // remove all users
             Object.values(app!.room!.users).forEach((user) => {
@@ -149,27 +184,31 @@ export function useMultiplayerState(roomId: string) {
             root.bindings = {}
           }
         }, 'create shapes/bindings object if not exists')
-        
+
         // 04. subscribe document event and handle changes
         doc.subscribe((event) => {
-          handleChanges()
+          if (event.type === 'remote-change') {
+            console.log(event.value)
+            handleChanges()
+          }
         })
 
         // 05. sync client
         await client.sync()
-        
-        if (stillAlive) {  
+
+        if (stillAlive) {
           // Update the document with initial content
           handleChanges()
-  
-          // Zoom to fit the content
+
+          // Zoom to fit the content & finish loading
           if (app) {
             app.zoomToFit()
             if (app.zoom > 1) {
               app.resetZoom()
             }
+            app.setIsLoading(false)
           }
-  
+
           setLoading(false)
         }
       } catch (e) {
