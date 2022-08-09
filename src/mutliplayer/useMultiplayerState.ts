@@ -41,7 +41,6 @@ export function useMultiplayerState(roomId: string) {
     ) => {
       if (client === undefined || doc === undefined) return
       
-      
       doc.update((root) => {
         Object.entries(shapes).forEach(([id, shape]) => {
           if (!shape) {
@@ -59,38 +58,8 @@ export function useMultiplayerState(roomId: string) {
         })
       })
     },
-    30,
+    60,
     false
-  )
-
-  // !!!! NEED TO THROTTLE THIS CALLBACK
-  const onChangePages = useCallback(
-    (
-      app: TldrawApp,
-      shapes: Record<string, TDShape | undefined>,
-      bindings: Record<string, TDBinding | undefined>
-    ) => {
-      if (client === undefined || doc === undefined) return
-      
-      
-      doc.update((root) => {
-        Object.entries(shapes).forEach(([id, shape]) => {
-          if (!shape) {
-            delete root.shapes[id]
-          } else {
-            root.shapes[id] = shape
-          }
-        })
-        Object.entries(bindings).forEach(([id, binding]) => {
-          if (!binding) {
-            delete root.bindings[id]
-          } else {
-            root.bindings[id] = binding
-          }
-        })
-      })
-    },
-    []
   )
 
   // undoManager will be implemented in further demo
@@ -117,6 +86,16 @@ export function useMultiplayerState(roomId: string) {
 
   useEffect(() => {
     if (!app) return
+
+    // detach & deactive yorkie client before unload
+    function handleDisconnect() {
+      if (client === undefined || doc === undefined) return
+
+      client.detach(doc);
+      client.deactivate();
+    }
+
+    window.addEventListener("beforeunload", handleDisconnect);
 
     // Subscribe to changes
     function handleChanges() {
@@ -172,7 +151,7 @@ export function useMultiplayerState(roomId: string) {
         })
 
         // 02. attach document into the client with specifiy doc name
-        doc = new yorkie.Document<YorkieType>('demo')
+        doc = new yorkie.Document<YorkieType>('demo3')
         await client.attach(doc)
 
         // 03. initialize document if document did not exists
@@ -188,7 +167,6 @@ export function useMultiplayerState(roomId: string) {
         // 04. subscribe document event and handle changes
         doc.subscribe((event) => {
           if (event.type === 'remote-change') {
-            console.log(event.value)
             handleChanges()
           }
         })
@@ -219,6 +197,7 @@ export function useMultiplayerState(roomId: string) {
     setupDocument()
 
     return () => {
+      window.removeEventListener("beforeunload", handleDisconnect);
       stillAlive = false
     }
   }, [app])
