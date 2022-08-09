@@ -2,21 +2,21 @@ import { TDBinding, TDShape, TDUser, TldrawApp } from '@tldraw/tldraw'
 import { useCallback, useEffect, useState } from 'react'
 import * as yorkie from 'yorkie-js-sdk'
 
+// 0. Yorkie Client declaration
+let client: yorkie.Client<yorkie.Indexable>
+
+// 0. Yorkie Document declaration
+let doc: yorkie.Document<yorkie.Indexable>
+
+// 0. Yorkie type for typescript
+type YorkieType = {
+  shapes: Record<string, TDShape>
+  bindings: Record<string, TDBinding>
+}
+
 export function useMultiplayerState(roomId: string) {
   const [app, setApp] = useState<TldrawApp>()
   const [loading, setLoading] = useState(true)
-
-    // 0. Yorkie Client declaration
-  let client: yorkie.Client<yorkie.Indexable>
-
-  // 0. Yorkie Document declaration
-  let doc: yorkie.Document<yorkie.Indexable>
-
-  // 0. Yorkie type for typescript
-  type YorkieType = {
-    shapes: Record<string, TDShape>
-    bindings: Record<string, TDBinding>
-  }
 
   // Callbacks --------------
 
@@ -57,7 +57,7 @@ export function useMultiplayerState(roomId: string) {
     },
     []
   )
-  
+
   // undoManager will be implemented in further demo
   const onUndo = useCallback(() => {
   }, [])
@@ -73,8 +73,8 @@ export function useMultiplayerState(roomId: string) {
     // need to limit rate of callback invocation
     // setting rate limit by prime numbers
     const time = new Date().getTime()
-    if(time % 19 !== 0) return
-    
+    if (time % 19 !== 0) return
+
     client.updatePresence("user", user)
   }, [])
 
@@ -91,13 +91,13 @@ export function useMultiplayerState(roomId: string) {
       // parse proxy object to record
       let shapeRecord: Record<string, TDShape> = JSON.parse(root.shapes.toJSON().replace(/\\\'/g, "'"))
       let bindingRecord: Record<string, TDBinding> = JSON.parse(root.bindings.toJSON())
-      
+
       // replace page content with changed(propagated) records
       app?.replacePageContent(shapeRecord, bindingRecord, {})
     }
-    
+
     let stillAlive = true
-    
+
     // Setup the document's storage and subscriptions
     async function setupDocument() {
       try {
@@ -111,7 +111,7 @@ export function useMultiplayerState(roomId: string) {
           `${process.env.REACT_APP_RPCADDR_ADDR}`, options
         )
         await client.activate()
-        
+
         // 01-1. subscribe peers-changed event and update tldraw users state
         client.subscribe((event) => {
           if (event.type === 'peers-changed') {
@@ -119,9 +119,9 @@ export function useMultiplayerState(roomId: string) {
 
             let users: TDUser[] = []
             for (const [clientID, presence] of Object.entries(peers)) {
-             users.push(presence.user)
+              users.push(presence.user)
             }
-            
+
             // WARNING: hard-coded section --------
             // remove all users
             Object.values(app!.room!.users).forEach((user) => {
@@ -147,7 +147,7 @@ export function useMultiplayerState(roomId: string) {
             root.bindings = {}
           }
         }, 'create shapes/bindings object if not exists')
-        
+
         // 04. subscribe document event and handle changes
         doc.subscribe((event) => {
           handleChanges()
@@ -155,11 +155,11 @@ export function useMultiplayerState(roomId: string) {
 
         // 05. sync client
         await client.sync()
-        
-        if (stillAlive) {  
+
+        if (stillAlive) {
           // Update the document with initial content
           handleChanges()
-  
+
           // Zoom to fit the content
           if (app) {
             app.zoomToFit()
@@ -167,7 +167,7 @@ export function useMultiplayerState(roomId: string) {
               app.resetZoom()
             }
           }
-  
+
           setLoading(false)
         }
       } catch (e) {
