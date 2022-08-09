@@ -2,22 +2,21 @@ import { TDBinding, TDShape, TDUser, TldrawApp } from '@tldraw/tldraw'
 import { useCallback, useEffect, useState } from 'react'
 import * as yorkie from 'yorkie-js-sdk'
 
-// 0. Yorkie Client declaration
-let client: yorkie.Client<yorkie.Indexable>
-
-// 0. Yorkie Document declaration
-let doc: yorkie.Document<yorkie.Indexable>
-
-
-// 0. Yorkie type for typescript
-type YorkieType = {
-  shapes: Record<string, TDShape>
-  bindings: Record<string, TDBinding>
-}
-
 export function useMultiplayerState(roomId: string) {
   const [app, setApp] = useState<TldrawApp>()
   const [loading, setLoading] = useState(true)
+
+    // 0. Yorkie Client declaration
+  let client: yorkie.Client<yorkie.Indexable>
+
+  // 0. Yorkie Document declaration
+  let doc: yorkie.Document<yorkie.Indexable>
+
+  // 0. Yorkie type for typescript
+  type YorkieType = {
+    shapes: Record<string, TDShape>
+    bindings: Record<string, TDBinding>
+  }
 
   // Callbacks --------------
 
@@ -90,9 +89,8 @@ export function useMultiplayerState(roomId: string) {
 
       // WARNING: hard-coded section --------
       // parse proxy object to record
-      let shapeJSON = JSON.stringify(root.shapes).replace(/\\\\\'/g, "'")
-      let shapeRecord: Record<string, TDShape> = JSON.parse(JSON.parse(shapeJSON))
-      let bindingRecord: Record<string, TDBinding> = JSON.parse(JSON.parse(JSON.stringify(root.bindings)))
+      let shapeRecord: Record<string, TDShape> = JSON.parse(root.shapes.toJSON().replace(/\\\'/g, "'"))
+      let bindingRecord: Record<string, TDBinding> = JSON.parse(root.bindings.toJSON())
       
       // replace page content with changed(propagated) records
       app?.replacePageContent(shapeRecord, bindingRecord, {})
