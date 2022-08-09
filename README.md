@@ -4,7 +4,7 @@ A real-time collaboration whiteboard demo project for [yorkie-js-sdk](https://gi
 
 Building real-time collaboration whiteboard using yorkie & tldraw (demo) Youtube link (KOR): https://youtu.be/2FH63ldefPw
 
-Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/) **(!! Service is currently unstable, will be fixed in 1~2 weeks, for more information see Roadmap)**
+Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/)
 
 ![yorkie-tldraw screenshot](./screenshot/screenshot.png)
 
@@ -18,8 +18,8 @@ Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/) **(!! Servic
     - Project Structure
     - About Yorkie
     - Deployment
-- Roadmap (WIP)
-- License
+- Roadmap
+- Uploads
 
 ## Getting Started
 
@@ -107,10 +107,11 @@ Yorkie references
 
 ### **Phase 1**
 
-- [x]  tldraw + yorkie Step 1: yorkie doc update TDShape
+- [x]  tldraw + yorkie Step 1: yorkie doc update TDType
 - [x]  tldraw + yorkie Step 2: yorkie presence with peer awareness
-- [ ]  customize tldraw core: cursor with name
-- [ ]  Yorkie clustering server on AWS using LB, ec2s, and etcd
+- [x]  yorkie server stablization: yorkie clustering server on AWS using LB, ec2s, and etcd
+- [x]  client optimization: loading bar, throttle on overheaded callbacks
+- [ ]  client customization: customize tldraw core: cursor with name
 
 ### **Phase 2**
 
@@ -124,3 +125,14 @@ Yorkie references
 - [ ]  implement creative interaction features in tldraw
     - [ ]  collaborative reaction
     - [ ]  …
+
+## Updates
+
+### **v0.2**
+- Yorkie server stabilized: Yorkie server cluster mode on AWS
+- User experience enhanced: Client loading bar on Yorkie setup
+- **User experience enhanced: Throttle on `onChangePage()` callback**
+
+### **v0.1**
+- tldraw + yorkie Step 1: yorkie doc update TDType
+- tldraw + yorkie Step 2: yorkie presence with peer awareness
