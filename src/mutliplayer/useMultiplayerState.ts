@@ -1,5 +1,5 @@
-import { TDBinding, TDShape, TDUser, TldrawApp } from '@tldraw/tldraw'
-import {useThrottle, useThrottleCallback} from '@react-hook/throttle'
+import { TDBinding, TDShape, TDUser, TldrawApp } from '@krapi0314/tldraw'
+import { useThrottleCallback} from '@react-hook/throttle'
 import { useCallback, useEffect, useState } from 'react'
 import * as yorkie from 'yorkie-js-sdk'
 
@@ -23,7 +23,13 @@ export function useMultiplayerState(roomId: string) {
 
   const onMount = useCallback(
     (app: TldrawApp) => {
-      app.loadRoom(roomId)
+      const userName = sessionStorage.getItem("userName")
+      if(userName === null) {
+        const promptValue = prompt("Please input your name")
+        sessionStorage.setItem("userName", promptValue === null ? 'Anony' : promptValue)
+      }
+
+      app.loadRoom(roomId, userName === null ? 'Anony' : userName)
       app.setIsLoading(true)
       app.pause()
       setApp(app)
