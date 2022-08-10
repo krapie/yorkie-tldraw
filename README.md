@@ -2,9 +2,9 @@
 
 A real-time collaboration whiteboard demo project for [yorkie-js-sdk](https://github.com/yorkie-team/yorkie-js-sdk) using [tldraw](https://github.com/tldraw/tldraw)
 
-Building real-time collaboration whiteboard using yorkie & tldraw (demo) Youtube link (KOR): https://youtu.be/2FH63ldefPw
-
 Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/)
+
+Building real-time collaboration whiteboard using yorkie & tldraw (demo) Youtube link (KOR): https://youtu.be/2FH63ldefPw
 
 ![yorkie-tldraw screenshot](./screenshot/screenshot.png)
 
@@ -111,7 +111,7 @@ Yorkie references
 - [x]  tldraw + yorkie Step 2: yorkie presence with peer awareness
 - [x]  yorkie server stablization: yorkie clustering server on AWS using LB, ec2s, and etcd
 - [x]  client optimization: loading bar, throttle on overheaded callbacks
-- [ ]  client customization: customize tldraw core: cursor with name
+- [x]  client customization: customize tldraw core: cursor with name
 
 ### **Phase 2**
 
@@ -127,6 +127,9 @@ Yorkie references
     - [ ]  …
 
 ## Updates
+
+### **v0.3**
+- **Peer awareness enhanced: Cursor with name implemented**
 
 ### **v0.2**
 - Yorkie server stabilized: Yorkie server cluster mode on AWS
