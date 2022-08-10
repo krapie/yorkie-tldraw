@@ -1,4 +1,4 @@
-import { Tldraw, useFileSystem } from "@tldraw/tldraw";
+import { Tldraw, useFileSystem } from "@krapi0314/tldraw";
 import { useMultiplayerState } from "./mutliplayer/useMultiplayerState";
 import "./styles.css";
 
@@ -19,7 +19,7 @@ Amazon AWS S3. Further demo will be implemented.
 */
 function YorkieTldrawEditor({ roomId }: { roomId: string }) {
   const fileSystemEvents = useFileSystem();
-  const { onMount, ...events } = useMultiplayerState(roomId);
+  const { ...events } = useMultiplayerState(roomId);
 
   return (
     <div>
@@ -27,7 +27,6 @@ function YorkieTldrawEditor({ roomId }: { roomId: string }) {
         autofocus
         disableAssets
         showPages={false}
-        onMount={onMount}
         {...fileSystemEvents}
         {...events}
       />
