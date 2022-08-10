@@ -1,0 +1,68 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+.app {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+    background-color: #f8f9fd;
+  }
+  
+  input[type="text"] {
+    height: 25px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  label {
+    text-align: center;
+  }
+  
+  button[type="submit"] {
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    background: gray;
+    border: 1px solid gray;
+    color: #fff;
+    padding: 10px 20px;
+  }
+  
+  button[type="submit"]:hover {
+    background: rgb(63, 62, 62);
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .login-form {
+    background-color: white;
+    padding: 2rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  
+  .list-container {
+    display: flex;
+  }
+  
+  .error {
+    color: red;
+    font-size: 12px;
+  }
+  
+  .title {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+  
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px;
+  }
