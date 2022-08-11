@@ -9,7 +9,7 @@ export default function Router() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/editor" element={<YorkieTldrawEditor />} />
+          <Route path="/editor-v0.3" element={<YorkieTldrawEditor />} />
         </Routes>
       </BrowserRouter>
     </>

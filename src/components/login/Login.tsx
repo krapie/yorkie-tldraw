@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 export default function Login() {
-    const navigate = useNavigate()
     const [userName, setUserName] = useState<string>()
+    const navigate = useNavigate()
     
     const onChange = (event: any) => {
         setUserName(event.target.value)
@@ -14,10 +14,9 @@ export default function Login() {
         event.preventDefault()
 
         sessionStorage.setItem("userName", userName === undefined ? "Anony" : userName)
-        navigate("/editor")
+        navigate("/editor-v0.3")
     };
 
-    // JSX code for login form
     const renderForm = (
         <div className="form">
             <form onSubmit={handleSubmit}>

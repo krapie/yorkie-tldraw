@@ -133,19 +133,19 @@ export function useMultiplayerState(roomId: string, userName: string) {
           if (event.type === 'peers-changed') {
             const peers = event.value[doc.getKey()]
 
-            let users: TDUser[] = []
-            for (const [clientID, presence] of Object.entries(peers)) {
-              users.push(presence.user)
-            }
+            // Compare with local user list and get leaved user list
+            // Then remove leaved users
+            const localUsers = Object.values(app!.room!.users)
+            const remoteUsers = Object.values(peers).map((presence) => presence.user).filter(Boolean)
+            const leavedUsers = localUsers.filter(({ id : id1 }) => !remoteUsers.some(({ id : id2 }) => id2 === id1))
 
-            // WARNING: hard-coded section --------
-            // remove all users
-            Object.values(app!.room!.users).forEach((user) => {
+            leavedUsers.forEach((user) => {
               app?.removeUser(user.id)
             })
-            // update users
+            
+            // Then update users
             app?.updateUsers(
-              users
+              remoteUsers
             )
           }
         })
