@@ -71,16 +71,11 @@ export function useMultiplayerState(roomId: string, userName: string) {
   }, [])
 
   // Handle presence updates when the user's pointer / selection changes
-  const onChangePresence = useCallback((app: TldrawApp, user: TDUser) => {
+  const onChangePresence = useThrottleCallback((app: TldrawApp, user: TDUser) => {
     if (client === undefined) return
 
-    // need to limit rate of callback invocation
-    // setting rate limit by prime numbers
-    const time = new Date().getTime()
-    if (time % 19 !== 0) return
-
     client.updatePresence("user", user)
-  }, [])
+  }, 60, false)
 
   // Document Changes --------
 
