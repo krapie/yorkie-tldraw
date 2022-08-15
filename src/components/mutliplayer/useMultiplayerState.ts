@@ -39,7 +39,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
       shapes: Record<string, TDShape | undefined>,
       bindings: Record<string, TDBinding | undefined>
     ) => {
-      if (client === undefined || doc === undefined) return
+      if (!app || client === undefined || doc === undefined) return
       
       doc.update((root) => {
         Object.entries(shapes).forEach(([id, shape]) => {
@@ -72,7 +72,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
 
   // Handle presence updates when the user's pointer / selection changes
   const onChangePresence = useThrottleCallback((app: TldrawApp, user: TDUser) => {
-    if (client === undefined) return
+    if (!app.room || client === undefined) return
 
     client.updatePresence("user", user)
   }, 60, false)
