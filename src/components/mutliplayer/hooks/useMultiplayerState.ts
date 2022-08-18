@@ -1,4 +1,4 @@
-import { TDBinding, TDShape, TDUser, TldrawApp } from '@krapi0314/tldraw'
+import { TDAsset, TDBinding, TDShape, TDUser, TldrawApp } from '@krapi0314/tldraw'
 import { useThrottleCallback} from '@react-hook/throttle'
 import { useCallback, useEffect, useState } from 'react'
 import * as yorkie from 'yorkie-js-sdk'
@@ -13,6 +13,7 @@ let doc: yorkie.Document<yorkie.Indexable>
 type YorkieType = {
   shapes: Record<string, TDShape>
   bindings: Record<string, TDBinding>
+  assets: Record<string, TDAsset>
 }
 
 export function useMultiplayerState(roomId: string, userName: string) {
@@ -37,7 +38,8 @@ export function useMultiplayerState(roomId: string, userName: string) {
     (
       app: TldrawApp,
       shapes: Record<string, TDShape | undefined>,
-      bindings: Record<string, TDBinding | undefined>
+      bindings: Record<string, TDBinding | undefined>,
+      assets: Record<string, TDAsset | undefined>
     ) => {
       if (!app || client === undefined || doc === undefined) return
       
@@ -54,6 +56,13 @@ export function useMultiplayerState(roomId: string, userName: string) {
             delete root.bindings[id]
           } else {
             root.bindings[id] = binding
+          }
+        })
+        Object.entries(assets).forEach(([id, asset]) => {
+          if (!asset) {
+            delete root.assets[id]
+          } else {
+            root.assets[id] = asset
           }
         })
       })
@@ -100,9 +109,10 @@ export function useMultiplayerState(roomId: string, userName: string) {
       // parse proxy object to record
       let shapeRecord: Record<string, TDShape> = JSON.parse(root.shapes.toJSON().replace(/\\\'/g, "'"))
       let bindingRecord: Record<string, TDBinding> = JSON.parse(root.bindings.toJSON())
+      let assetRecord: Record<string, TDAsset> = JSON.parse(root.assets.toJSON())
 
       // replace page content with changed(propagated) records
-      app?.replacePageContent(shapeRecord, bindingRecord, {})
+      app?.replacePageContent(shapeRecord, bindingRecord, assetRecord)
     }
 
     let stillAlive = true
@@ -157,7 +167,10 @@ export function useMultiplayerState(roomId: string, userName: string) {
           if (!root.bindings) {
             root.bindings = {}
           }
-        }, 'create shapes/bindings object if not exists')
+          if (!root.assets) {
+            root.assets = {}
+          }
+        }, 'create shapes/bindings/assets object if not exists')
 
         // 04. subscribe document event and handle changes
         doc.subscribe((event) => {

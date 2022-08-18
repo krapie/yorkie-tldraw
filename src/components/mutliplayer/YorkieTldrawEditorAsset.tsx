@@ -1,7 +1,6 @@
 import { Tldraw, useFileSystem } from "@krapi0314/tldraw";
 import { useMultiplayerAssets } from "./hooks/useMultiplayerAssets";
 import { useMultiplayerState } from "./hooks/useMultiplayerState";
-import { useUploadAssets } from "./hooks/useUploadAssets";
 
 /*
 This demo shows how to integrate TLDraw with a multiplayer room
@@ -12,8 +11,7 @@ and update it when the server's synchronized document changes.
 function Editor({ roomId, userName }: { roomId: string, userName: string }) {
   const fileSystemEvents = useFileSystem();
   const { ...events } = useMultiplayerState(roomId, userName);
-  const { onAssetCreate, onAssetDelete } = useMultiplayerAssets()
-  const { onAssetUpload } = useUploadAssets()
+  const { ...assetEvents } = useMultiplayerAssets()
 
   return (
     <div>
@@ -21,9 +19,7 @@ function Editor({ roomId, userName }: { roomId: string, userName: string }) {
         autofocus
         disableAssets={false}
         showPages={false}
-        onAssetCreate={onAssetCreate}
-        onAssetDelete={onAssetDelete}
-        onAssetUpload={onAssetUpload}
+        {...assetEvents}
         {...fileSystemEvents}
         {...events}
       />
