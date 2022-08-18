@@ -1,21 +1,19 @@
 import { Tldraw, useFileSystem } from "@krapi0314/tldraw";
+import { useMultiplayerAssets } from "./hooks/useMultiplayerAssets";
 import { useMultiplayerState } from "./hooks/useMultiplayerState";
+import { useUploadAssets } from "./hooks/useUploadAssets";
 
 /*
 This demo shows how to integrate TLDraw with a multiplayer room
 via Yorkie. You could use any other service instead—the important
 part is to get data from the Tldraw app when its document changes 
 and update it when the server's synchronized document changes.
-
-Warning: Keeping images enabled for multiplayer applications
-without providing a storage bucket based solution will cause
-massive base64 string to be written to the multiplayer storage.
-It's recommended to use a storage bucket based solution, such as
-Amazon AWS S3. Further demo will be implemented.
 */
 function Editor({ roomId, userName }: { roomId: string, userName: string }) {
   const fileSystemEvents = useFileSystem();
   const { ...events } = useMultiplayerState(roomId, userName);
+  const { onAssetCreate, onAssetDelete } = useMultiplayerAssets()
+  const { onAssetUpload } = useUploadAssets()
 
   return (
     <div>
@@ -23,6 +21,9 @@ function Editor({ roomId, userName }: { roomId: string, userName: string }) {
         autofocus
         disableAssets={false}
         showPages={false}
+        onAssetCreate={onAssetCreate}
+        onAssetDelete={onAssetDelete}
+        onAssetUpload={onAssetUpload}
         {...fileSystemEvents}
         {...events}
       />
@@ -30,7 +31,7 @@ function Editor({ roomId, userName }: { roomId: string, userName: string }) {
   );
 }
 
-export default function YorkieTldrawEditor() {
+export default function YorkieTldrawEditorAsset() {
   return (
     <div className="tldraw">
       <Editor
