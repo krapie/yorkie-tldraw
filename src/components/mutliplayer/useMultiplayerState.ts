@@ -72,7 +72,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
 
   // Handle presence updates when the user's pointer / selection changes
   const onChangePresence = useThrottleCallback((app: TldrawApp, user: TDUser) => {
-    if (!app.room || client === undefined) return
+    if (!app || client === undefined || !client.isActive()) return
 
     client.updatePresence("user", user)
   }, 60, false)
@@ -146,7 +146,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
         })
 
         // 02. attach document into the client with specifiy doc name
-        doc = new yorkie.Document<YorkieType>('demo3')
+        doc = new yorkie.Document<YorkieType>(roomId)
         await client.attach(doc)
 
         // 03. initialize document if document did not exists

@@ -1,9 +1,6 @@
 import { Tldraw, useFileSystem } from "@krapi0314/tldraw";
 import { useMultiplayerState } from "./useMultiplayerState";
 
-const VERSION = 1;
-const roomID = `yorkie-tldraw-${VERSION}`;
-
 /*
 This demo shows how to integrate TLDraw with a multiplayer room
 via Yorkie. You could use any other service instead—the important
@@ -36,7 +33,10 @@ function Editor({ roomId, userName }: { roomId: string, userName: string }) {
 export default function YorkieTldrawEditor() {
   return (
     <div className="tldraw">
-      <Editor roomId={roomID} userName={sessionStorage.getItem("userName") === null ? "Anony" : sessionStorage.getItem("userName") as string}/>
+      <Editor
+        roomId={sessionStorage.getItem("room") === null ? "room1" : sessionStorage.getItem("room") as string}
+        userName={sessionStorage.getItem("userName") === null ? "Anony" : sessionStorage.getItem("userName") as string}
+      />
     </div>
   );
 }

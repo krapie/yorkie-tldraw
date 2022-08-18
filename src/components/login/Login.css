@@ -17,6 +17,11 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
   }
 
+  select {
+    height: 25px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
   label {
     text-align: center;
   }

@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../login/Login";
 import YorkieTldrawEditor from "../mutliplayer/YorkieTldrawEditor";
 
+const VERSION: string = "v0.4"
+
 export default function Router() {
 
   return (
@@ -9,7 +11,7 @@ export default function Router() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/editor-v0.3" element={<YorkieTldrawEditor />} />
+          <Route path={`/editor-${VERSION}`} element={<YorkieTldrawEditor />} />
         </Routes>
       </BrowserRouter>
     </>
