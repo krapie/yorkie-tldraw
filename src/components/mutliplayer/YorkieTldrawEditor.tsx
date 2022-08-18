@@ -1,5 +1,5 @@
 import { Tldraw, useFileSystem } from "@krapi0314/tldraw";
-import { useMultiplayerState } from "./useMultiplayerState";
+import { useMultiplayerState } from "./hooks/useMultiplayerState";
 
 /*
 This demo shows how to integrate TLDraw with a multiplayer room
@@ -21,7 +21,7 @@ function Editor({ roomId, userName }: { roomId: string, userName: string }) {
     <div>
       <Tldraw
         autofocus
-        disableAssets
+        disableAssets={false}
         showPages={false}
         {...fileSystemEvents}
         {...events}
