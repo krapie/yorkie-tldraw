@@ -2,7 +2,7 @@
 
 A real-time collaboration whiteboard demo project for [yorkie-js-sdk](https://github.com/yorkie-team/yorkie-js-sdk) using [tldraw](https://github.com/tldraw/tldraw)
 
-Demo link: [http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/)
+Demo link: [https://demo.asyncrum.com/](https://demo.asyncrum.com/)
 
 Building real-time collaboration whiteboard using yorkie & tldraw (demo) Youtube link (KOR): https://youtu.be/2FH63ldefPw
 
@@ -93,11 +93,11 @@ Yorkie references
 
 ### Deployment
 
-[http://yorkie.rubatoo.com/](http://yorkie.rubatoo.com/) deployment structure are shown below
+[https://demo.asyncrum.com/](https://demo.asyncrum.com/) deployment structure are shown below
 
 ```
 [client]
- ㄴ yorkie.rubatoo.com              - [Github, gh-pages]  # for serving static pages
+ ㄴ demo.asyncrum.com               - [Github, gh-pages]  # for serving static pages
 [server] 
  ㄴ (domain name not configured)    - [AWS ALB]  # api gateway with load balancing
   ㄴ envoy - yorkie server - memDB  - [AWS EC2]  # ec2 instance for api server
@@ -130,6 +130,7 @@ Yorkie references
 
 ### **v0.4**
 - Room: Room selection added
+- Security: HTTPS enforced 
 - **Asset: Assets(image/video) feature enabled**
 
 ### **v0.3**
