@@ -115,9 +115,9 @@ Yorkie references
 
 ### **Phase 2**
 
-- [ ]  enable asset (image/video) feature
-    - [ ]  setting storage bucket for media files (ex: AWS S3)
-        - [ ]  setting up presigned url with lambda (optional)
+- [x]  enable asset (image/video) feature
+    - [x]  setting storage bucket for media files (ex: AWS S3)
+        - [x]  setting up presigned url with lambda (optional)
 - [ ]  undoManager with Yorkie history API (not implemented)
 
 ### **Phase 3**
@@ -127,6 +127,10 @@ Yorkie references
     - [ ]  …
 
 ## Updates
+
+### **v0.4**
+- Room: Room selection added
+- **Asset: Assets(image/video) feature enabled**
 
 ### **v0.3**
 - **Peer awareness enhanced: Cursor with name implemented**
