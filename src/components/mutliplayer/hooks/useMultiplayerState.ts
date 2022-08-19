@@ -10,7 +10,7 @@ let client: yorkie.Client<yorkie.Indexable>
 let doc: yorkie.Document<yorkie.Indexable>
 
 // 0. Yorkie type for typescript
-type YorkieType = {
+type YorkieDocType = {
   shapes: Record<string, TDShape>
   bindings: Record<string, TDBinding>
   assets: Record<string, TDAsset>
@@ -33,7 +33,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
   )
 
   // Update Yorkie doc when the app's shapes change.
-  // preventing overhead yorkie update api call by throttle
+  // Prevent overloading yorkie update api call by throttle
   const onChangePage = useThrottleCallback(
     (
       app: TldrawApp,
@@ -42,8 +42,8 @@ export function useMultiplayerState(roomId: string, userName: string) {
       assets: Record<string, TDAsset | undefined>
     ) => {
       if (!app || client === undefined || doc === undefined) return
-      
-      doc.update((root) => {
+
+      doc.update((root) => {    
         Object.entries(shapes).forEach(([id, shape]) => {
           if (!shape) {
             delete root.shapes[id]
@@ -51,6 +51,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
             root.shapes[id] = shape
           }
         })
+
         Object.entries(bindings).forEach(([id, binding]) => {
           if (!binding) {
             delete root.bindings[id]
@@ -58,11 +59,14 @@ export function useMultiplayerState(roomId: string, userName: string) {
             root.bindings[id] = binding
           }
         })
-        Object.entries(assets).forEach(([id, asset]) => {
+
+        // Should store app.document.assets which is global asset storage referenced by inner page assets
+        // Document key for assets should be asset.id (string), not index
+        Object.entries(app.assets).forEach(([id, asset]) => {
           if (!asset) {
-            delete root.assets[id]
+            delete root.assets[asset.id]
           } else {
-            root.assets[id] = asset
+            root.assets[asset.id] = asset
           }
         })
       })
@@ -71,11 +75,11 @@ export function useMultiplayerState(roomId: string, userName: string) {
     false
   )
 
-  // undoManager will be implemented in further demo
+  // UndoManager will be implemented in further demo
   const onUndo = useCallback(() => {
   }, [])
 
-  // redoManager will be implemented in further demo
+  // RedoManager will be implemented in further demo
   const onRedo = useCallback(() => {
   }, [])
 
@@ -91,7 +95,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
   useEffect(() => {
     if (!app) return
 
-    // detach & deactive yorkie client before unload
+    // Detach & deactive yorkie client before unload
     function handleDisconnect() {
       if (client === undefined || doc === undefined) return
 
@@ -103,15 +107,15 @@ export function useMultiplayerState(roomId: string, userName: string) {
 
     // Subscribe to changes
     function handleChanges() {
-      let root = doc.getRoot()
+      const root = doc.getRoot()
 
       // WARNING: hard-coded section --------
-      // parse proxy object to record
-      let shapeRecord: Record<string, TDShape> = JSON.parse(root.shapes.toJSON().replace(/\\\'/g, "'"))
-      let bindingRecord: Record<string, TDBinding> = JSON.parse(root.bindings.toJSON())
-      let assetRecord: Record<string, TDAsset> = JSON.parse(root.assets.toJSON())
+      // Parse proxy object to record
+      const shapeRecord: Record<string, TDShape> = JSON.parse(root.shapes.toJSON().replace(/\\\'/g, "'"))
+      const bindingRecord: Record<string, TDBinding> = JSON.parse(root.bindings.toJSON())
+      const assetRecord: Record<string, TDAsset> = JSON.parse(root.assets.toJSON())
 
-      // replace page content with changed(propagated) records
+      // Replace page content with changed(propagated) records
       app?.replacePageContent(shapeRecord, bindingRecord, assetRecord)
     }
 
@@ -120,7 +124,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
     // Setup the document's storage and subscriptions
     async function setupDocument() {
       try {
-        // 01. active client with RPCAddr(envoy) with presence
+        // 01. Active client with RPCAddr(envoy) with presence
         const options = {
           presence: {
             user: app?.currentUser,
@@ -133,7 +137,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
         )
         await client.activate()
 
-        // 01-1. subscribe peers-changed event and update tldraw users state
+        // 01-1. Subscribe peers-changed event and update tldraw users state
         client.subscribe((event) => {
           if (event.type === 'peers-changed') {
             const peers = event.value[doc.getKey()]
@@ -155,11 +159,11 @@ export function useMultiplayerState(roomId: string, userName: string) {
           }
         })
 
-        // 02. attach document into the client with specifiy doc name
-        doc = new yorkie.Document<YorkieType>(roomId)
+        // 02. Attach document into the client with specifiy doc name
+        doc = new yorkie.Document<YorkieDocType>(roomId)
         await client.attach(doc)
 
-        // 03. initialize document if document did not exists
+        // 03. Initialize document if document did not exists
         doc.update((root) => {
           if (!root.shapes) {
             root.shapes = {}
@@ -172,14 +176,14 @@ export function useMultiplayerState(roomId: string, userName: string) {
           }
         }, 'create shapes/bindings/assets object if not exists')
 
-        // 04. subscribe document event and handle changes
+        // 04. Subscribe document event and handle changes
         doc.subscribe((event) => {
           if (event.type === 'remote-change') {
             handleChanges()
           }
         })
 
-        // 05. sync client
+        // 05. Sync client
         await client.sync()
 
         if (stillAlive) {
