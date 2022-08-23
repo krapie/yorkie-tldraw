@@ -37,7 +37,6 @@ export function useMultiplayerAssets() {
         }
       })
 
-      console.log(fileName)
       await fetch(`${process.env.REACT_APP_AWS_DELETE_OBJECT_ADDR}?fileName=${fileName}`)
 
       return true
