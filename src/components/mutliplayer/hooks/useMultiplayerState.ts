@@ -1,5 +1,5 @@
 import { TDAsset, TDBinding, TDShape, TDUser, TldrawApp } from '@krapi0314/tldraw'
-import { useThrottleCallback} from '@react-hook/throttle'
+import { useThrottleCallback } from '@react-hook/throttle'
 import { useCallback, useEffect, useState } from 'react'
 import * as yorkie from 'yorkie-js-sdk'
 
@@ -10,6 +10,12 @@ let client: yorkie.Client<yorkie.Indexable>
 let doc: yorkie.Document<yorkie.Indexable>
 
 // 0. Yorkie type for typescript
+type options = {
+  apiKey?: string,
+  presence: object,
+  syncLoopDuration: number,
+  reconnectStreamDelay: number
+}
 type YorkieDocType = {
   shapes: Record<string, TDShape>
   bindings: Record<string, TDBinding>
@@ -43,7 +49,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
     ) => {
       if (!app || client === undefined || doc === undefined) return
 
-      doc.update((root) => {    
+      doc.update((root) => {
         Object.entries(shapes).forEach(([id, shape]) => {
           if (!shape) {
             delete root.shapes[id]
@@ -125,15 +131,24 @@ export function useMultiplayerState(roomId: string, userName: string) {
     async function setupDocument() {
       try {
         // 01. Active client with RPCAddr(envoy) with presence
-        const options = {
+        //     also add apiKey if provided
+        const options: options = {
+          apiKey: "",
           presence: {
             user: app?.currentUser,
           },
           syncLoopDuration: 0,
           reconnectStreamDelay: 1000
         }
+
+        if (`${process.env.REACT_APP_YORKIE_API_KEY}` === undefined) {
+          options.apiKey = `${process.env.REACT_APP_YORKIE_API_KEY}`;
+        } else {
+          delete options.apiKey;
+        }
+
         client = new yorkie.Client(
-          `${process.env.REACT_APP_RPCADDR_ADDR}`, options
+          `${process.env.REACT_APP_YORKIE_RPC_ADDR}`, options
         )
         await client.activate()
 
@@ -146,12 +161,12 @@ export function useMultiplayerState(roomId: string, userName: string) {
             // Then remove leaved users
             const localUsers = Object.values(app!.room!.users)
             const remoteUsers = Object.values(peers).map((presence) => presence.user).filter(Boolean)
-            const leavedUsers = localUsers.filter(({ id : id1 }) => !remoteUsers.some(({ id : id2 }) => id2 === id1))
+            const leavedUsers = localUsers.filter(({ id: id1 }) => !remoteUsers.some(({ id: id2 }) => id2 === id1))
 
             leavedUsers.forEach((user) => {
               app?.removeUser(user.id)
             })
-            
+
             // Then update users
             app?.updateUsers(
               remoteUsers
