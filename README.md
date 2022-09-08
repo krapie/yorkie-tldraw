@@ -11,13 +11,13 @@ Building real-time collaboration whiteboard using yorkie & tldraw (demo) Youtube
 ## Table of Contents
 
 - Getting Started
-    - Prerequisites
-    - Instructions
+  - Prerequisites
+  - Instructions
 - Development
-    - Project Requirements
-    - Project Structure
-    - About Yorkie
-    - Deployment
+  - Project Requirements
+  - Project Structure
+  - About Yorkie
+  - Deployment
 - Roadmap
 - Uploads
 
@@ -36,7 +36,7 @@ If you are new to yorkie or tldraw and you just want to play around, just clone 
 # clone repository
 git clone https://github.com/Krapi0314/yorkie-tldraw.git
 
-# change to project directory 
+# change to project directory
 cd yorkie-tldraw
 
 # change to docker directory
@@ -60,27 +60,27 @@ yarn start
 ### Project Components
 
 - `React.js` for project base framework
-    - For more information, follow: [https://create-react-app.dev/docs/getting-started/](https://create-react-app.dev/docs/getting-started/)
+  - For more information, follow: [https://create-react-app.dev/docs/getting-started/](https://create-react-app.dev/docs/getting-started/)
 - `@tldraw/tldraw` for React based canvas/svg whiteboard
-    - For more information, follow: [https://github.com/tldraw/tldraw](https://github.com/tldraw/tldraw)
+  - For more information, follow: [https://github.com/tldraw/tldraw](https://github.com/tldraw/tldraw)
 - `yorkie-js-sdk` for real-time collaboration sdk for web clients
-    - For more information, follow: [https://github.com/yorkie-team/yorkie-js-sdk](https://github.com/yorkie-team/yorkie-js-sdk)
+  - For more information, follow: [https://github.com/yorkie-team/yorkie-js-sdk](https://github.com/yorkie-team/yorkie-js-sdk)
 - `yorkie server` for server between yorkie clients
-    - For more information, follow: [https://yorkie.dev/docs/server-for-web](https://yorkie.dev/docs/server-for-web)
+  - For more information, follow: [https://yorkie.dev/docs/server-for-web](https://yorkie.dev/docs/server-for-web)
 
 ### Project Structure
 
 **Client**
 
 - `src`
-    - `multiplayer`
-        - `useMultiplayerState.ts` (mutliplayer state using yorkie and tldraw event callbacks)
-    - `App.tsx` (React project entry point which contains tldraw editor component customed by useMultiplayerState.ts)
+  - `multiplayer`
+    - `useMultiplayerState.ts` (mutliplayer state using yorkie and tldraw event callbacks)
+  - `App.tsx` (React project entry point which contains tldraw editor component customed by useMultiplayerState.ts)
 
 **Server**
 
 - `docker-compose`
-    - `envoy`(gRPC web Proxy), `yorkie server`(with gRPC Server), `mongoDB/in-memory DB` (database)
+  - `envoy`(gRPC web Proxy), `yorkie server`(with gRPC Server), `mongoDB/in-memory DB` (database)
 
 ### About Yorkie
 
@@ -97,50 +97,57 @@ Yorkie references
 
 ```
 [client]
- ㄴ demo.asyncrum.com               - [Github, gh-pages]  # for serving static pages
-[server] 
- ㄴ (domain name not configured)    - [AWS ALB]  # api gateway with load balancing
-  ㄴ envoy - yorkie server - memDB  - [AWS EC2]  # ec2 instance for api server
+ ㄴ demo.asyncrum.com   - [Github, gh-pages]  # for serving static pages
+[server]
+ ㄴ api.yorkie.dev      - [EKS]               # for serving API
 ```
 
 ## Roadmap
 
 ### **Phase 1**
 
-- [x]  tldraw + yorkie Step 1: yorkie doc update TDType
-- [x]  tldraw + yorkie Step 2: yorkie presence with peer awareness
-- [x]  yorkie server stablization: yorkie clustering server on AWS using LB, ec2s, and etcd
-- [x]  client optimization: loading bar, throttle on overheaded callbacks
-- [x]  client customization: customize tldraw core: cursor with name
+- [x] tldraw + yorkie Step 1: yorkie doc update TDType
+- [x] tldraw + yorkie Step 2: yorkie presence with peer awareness
+- [x] yorkie server stablization: yorkie clustering server on AWS using LB, ec2s, and etcd
+- [x] client optimization: loading bar, throttle on overheaded callbacks
+- [x] client customization: customize tldraw core: cursor with name
 
 ### **Phase 2**
 
-- [x]  enable asset (image/video) feature
-    - [x]  setting storage bucket for media files (ex: AWS S3)
-        - [x]  setting up presigned url with lambda (optional)
-- [ ]  undoManager with Yorkie history API (not implemented)
+- [x] enable asset (image/video) feature
+  - [x] setting storage bucket for media files (ex: AWS S3)
+    - [x] setting up presigned url with lambda (optional)
+- [ ] undoManager with Yorkie history API (not implemented)
 
 ### **Phase 3**
 
-- [ ]  implement creative interaction features in tldraw
-    - [ ]  collaborative reaction
-    - [ ]  …
+- [ ] implement creative interaction features in tldraw
+  - [ ] collaborative reaction
+  - [ ] …
 
 ## Updates
 
+### **v0.4.1**
+
+- Yorkie SaaS: Using Yorkie SaaS as API server
+
 ### **v0.4**
+
 - Room: Room selection added
-- Security: HTTPS enforced 
+- Security: HTTPS enforced
 - **Asset: Assets(image/video) feature enabled**
 
 ### **v0.3**
+
 - **Peer awareness enhanced: Cursor with name implemented**
 
 ### **v0.2**
+
 - Yorkie server stabilized: Yorkie server cluster mode on AWS
 - User experience enhanced: Client loading bar on Yorkie setup
 - **User experience enhanced: Throttle on `onChangePage()` callback**
 
 ### **v0.1**
+
 - tldraw + yorkie Step 1: yorkie doc update TDType
 - tldraw + yorkie Step 2: yorkie presence with peer awareness
