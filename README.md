@@ -129,7 +129,8 @@ Yorkie references
 
 ### **v0.4.1**
 
-- Yorkie SaaS: Using Yorkie SaaS as API server
+- Yorkie SaaS: Yorkie SaaS as API server
+- UX: Cursor-with-name resized
 
 ### **v0.4**
 
@@ -143,9 +144,9 @@ Yorkie references
 
 ### **v0.2**
 
-- Yorkie server stabilized: Yorkie server cluster mode on AWS
-- User experience enhanced: Client loading bar on Yorkie setup
-- **User experience enhanced: Throttle on `onChangePage()` callback**
+- Server: Yorkie server cluster mode on AWS
+- UX: Client loading bar on Yorkie setup
+- **UX: Throttle on `onChangePage()` callback**
 
 ### **v0.1**
 

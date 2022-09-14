@@ -1571,10 +1571,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@krapi0314/tldraw-core@^1.15.2":
-  version "1.15.2"
-  resolved "https://registry.yarnpkg.com/@krapi0314/tldraw-core/-/tldraw-core-1.15.2.tgz#19209cc7823034efa797760a17092a3fe4ce9b44"
-  integrity sha512-AFZg0JhnzEgKS2CLDBnAZcMicDkZpIfqzzn694bF6YyGT4O6hzO84stqbi2oRkXg0vPuPxR163H/lrn4pnHN5w==
+"@krapi0314/tldraw-core@^1.15.5":
+  version "1.15.5"
+  resolved "https://registry.yarnpkg.com/@krapi0314/tldraw-core/-/tldraw-core-1.15.5.tgz#56d507dbc78d57da8f930b20be893e053fb7d5fb"
+  integrity sha512-Yi7l4dbD0JyzZLh1+zfLxvboUw3J+gqscZBrztXJoDHfewsD3mJoVFScQ8NAib0+r2GUjvUI3nxt6JQkIpTUdQ==
   dependencies:
     "@tldraw/intersect" "^1.7.1"
     "@tldraw/vec" "^1.7.1"
@@ -1583,12 +1583,12 @@
     perfect-freehand "^1.1.0"
     resize-observer-polyfill "^1.5.1"
 
-"@krapi0314/tldraw@1.20.3":
-  version "1.20.3"
-  resolved "https://registry.yarnpkg.com/@krapi0314/tldraw/-/tldraw-1.20.3.tgz#0aa4e4c86dfe2d112fef70327517e6602b355793"
-  integrity sha512-51WU2Vt2UXxLep1S16+c9/ucxnnZ3+e/jKSjY6dpPhjdeVEKHHcke/KkZPIqgMq5OXr1A1IfDz4VXAswr93vcQ==
+"@krapi0314/tldraw@1.20.5":
+  version "1.20.5"
+  resolved "https://registry.yarnpkg.com/@krapi0314/tldraw/-/tldraw-1.20.5.tgz#5bf3a40d34f3839cdd9b57e583a526e35e145531"
+  integrity sha512-n23eICLgaveJwBUEEHJRk/YdemVkZsjSrTWwSW4sjbP2yJsvaQ9cuaWe9cKnYJTgmYPiei/9gajfKN/C4ngM3A==
   dependencies:
-    "@krapi0314/tldraw-core" "^1.15.2"
+    "@krapi0314/tldraw-core" "^1.15.5"
     "@radix-ui/react-alert-dialog" "^1.0.0"
     "@radix-ui/react-context-menu" "^1.0.0"
     "@radix-ui/react-dialog" "^1.0.0"
