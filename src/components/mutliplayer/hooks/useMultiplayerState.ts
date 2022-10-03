@@ -141,10 +141,8 @@ export function useMultiplayerState(roomId: string, userName: string) {
           reconnectStreamDelay: 1000
         }
 
-        if (`${process.env.REACT_APP_YORKIE_API_KEY}` === undefined) {
+        if (`${process.env.REACT_APP_YORKIE_API_KEY}`) {
           options.apiKey = `${process.env.REACT_APP_YORKIE_API_KEY}`;
-        } else {
-          delete options.apiKey;
         }
 
         client = new yorkie.Client(
