@@ -1,7 +1,9 @@
-import { TDAsset, TDBinding, TDShape, TDUser, TldrawApp } from '@krapi0314/tldraw'
+import { TDUserStatus, TDAsset, TDBinding, TDShape, TDUser, TldrawApp } from '@tldraw/tldraw'
 import { useThrottleCallback } from '@react-hook/throttle'
 import { useCallback, useEffect, useState } from 'react'
 import * as yorkie from 'yorkie-js-sdk'
+import randomColor from 'randomcolor'
+import { v1 as uuidv1 } from 'uuid'
 
 // 0. Yorkie Client declaration
 let client: yorkie.Client<yorkie.Indexable>
@@ -30,10 +32,21 @@ export function useMultiplayerState(roomId: string, userName: string) {
 
   const onMount = useCallback(
     (app: TldrawApp) => {
-      app.loadRoom(roomId, userName)
+      app.loadRoom(roomId)
       app.setIsLoading(true)
       app.pause()
       setApp(app)
+
+      // On mount, create new user
+      app.updateUsers([{
+        id: app!.currentUser!.id,
+        point: [0, 0],
+        color: randomColor(),
+        status: TDUserStatus.Connected,
+        activeShapes: [],
+        selectedIds: [],
+        metadata: { name: userName }, // <-- our custom metadata
+      }])
     },
     [roomId]
   )
@@ -69,7 +82,7 @@ export function useMultiplayerState(roomId: string, userName: string) {
         // Should store app.document.assets which is global asset storage referenced by inner page assets
         // Document key for assets should be asset.id (string), not index
         Object.entries(app.assets).forEach(([id, asset]) => {
-          if (!asset) {
+          if (!asset.id) {
             delete root.assets[asset.id]
           } else {
             root.assets[asset.id] = asset

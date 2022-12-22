@@ -1,5 +1,5 @@
-import { Utils } from '@krapi0314/tldraw-core'
-import { TldrawApp } from '@krapi0314/tldraw'
+import { Utils } from '@tldraw/core'
+import { TldrawApp } from '@tldraw/tldraw'
 import { useCallback } from 'react'
 
 export function useMultiplayerAssets() {
@@ -24,12 +24,12 @@ export function useMultiplayerAssets() {
     },
     []
   )
-  
+
   const onAssetDelete = useCallback(
     // 1. Call deleteS3Object aws lamdba function to delete file on s3 bucket
     async (app: TldrawApp, assetId: string): Promise<boolean> => {
       let fileName: string = ""
-      
+
       Object.entries(app.assets).forEach(([id, asset]) => {
         if (assetId === asset.id) {
           const filePath: string = asset.src

@@ -1,6 +1,6 @@
 {
   "name": "yorkie-tldraw",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "private": true,
   "description": "tldraw multiplayer project using yorkie",
   "author": "krapi0314",
@@ -17,18 +17,22 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@krapi0314/tldraw": "1.20.5",
     "@react-hook/throttle": "^2.2.0",
+    "@tldraw/tldraw": "1.26.3",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
+    "@types/randomcolor": "^0.5.5",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@types/uuid": "^9.0.0",
     "mobx": "^6.6.1",
+    "randomcolor": "^0.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.4.2",
+    "uuid": "^9.0.0",
     "v6": "^0.0.0",
     "yorkie-js-sdk": "^0.2.15"
   },

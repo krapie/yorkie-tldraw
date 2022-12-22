@@ -2,7 +2,7 @@
 
 A real-time collaboration whiteboard demo project for [yorkie-js-sdk](https://github.com/yorkie-team/yorkie-js-sdk) using [tldraw](https://github.com/tldraw/tldraw)
 
-Demo link: [https://demo.asyncrum.com/](https://demo.asyncrum.com/)
+Demo link: [https://yt.rubatoo.com/](https://yt.rubatoo.com/)
 
 Building real-time collaboration whiteboard using yorkie & tldraw (demo) Youtube link (KOR): https://youtu.be/2FH63ldefPw
 
@@ -126,6 +126,11 @@ Yorkie references
   - [ ] …
 
 ## Updates
+
+### **v0.5.0**
+
+- tldraw: Update tldarw version to 1.26.3
+- tldraw Custom Cursor: change multiplayer cursor to tldarw's offical cursor
 
 ### **v0.4.1**
 

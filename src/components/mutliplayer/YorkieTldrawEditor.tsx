@@ -1,4 +1,4 @@
-import { Tldraw, useFileSystem } from "@krapi0314/tldraw";
+import { Tldraw, useFileSystem } from "@tldraw/tldraw";
 import { useMultiplayerState } from "./hooks/useMultiplayerState";
 
 /*
@@ -13,7 +13,7 @@ massive base64 string to be written to the multiplayer storage.
 It's recommended to use a storage bucket based solution, such as
 Amazon AWS S3. Further demo will be implemented.
 */
-function Editor({ roomId, userName }: { roomId: string, userName: string }) {
+function Editor({ roomId, userName }: { roomId: string; userName: string }) {
   const fileSystemEvents = useFileSystem();
   const { ...events } = useMultiplayerState(roomId, userName);
 
@@ -21,7 +21,7 @@ function Editor({ roomId, userName }: { roomId: string, userName: string }) {
     <div>
       <Tldraw
         autofocus
-        disableAssets={false}
+        disableAssets={true}
         showPages={false}
         {...fileSystemEvents}
         {...events}
@@ -34,8 +34,16 @@ export default function YorkieTldrawEditor() {
   return (
     <div className="tldraw">
       <Editor
-        roomId={sessionStorage.getItem("room") === null ? "room1" : sessionStorage.getItem("room") as string}
-        userName={sessionStorage.getItem("userName") === null ? "Anony" : sessionStorage.getItem("userName") as string}
+        roomId={
+          sessionStorage.getItem("room") === null
+            ? "room1"
+            : (sessionStorage.getItem("room") as string)
+        }
+        userName={
+          sessionStorage.getItem("userName") === null
+            ? "Anony"
+            : (sessionStorage.getItem("userName") as string)
+        }
       />
     </div>
   );

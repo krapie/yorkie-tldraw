@@ -21,10 +21,10 @@ export default function Login() {
 
     sessionStorage.setItem(
       "userName",
-      userName === undefined ? "Anony" : userName
+      userName === undefined ? "Anonymous" : userName
     );
     sessionStorage.setItem("room", room === undefined ? "room1" : room);
-    navigate("/editor-v0.4");
+    navigate("/editor-v0.5");
   };
 
   const renderForm = (
