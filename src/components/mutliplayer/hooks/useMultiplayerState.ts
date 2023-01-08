@@ -3,7 +3,6 @@ import { useThrottleCallback } from '@react-hook/throttle'
 import { useCallback, useEffect, useState } from 'react'
 import * as yorkie from 'yorkie-js-sdk'
 import randomColor from 'randomcolor'
-import { v1 as uuidv1 } from 'uuid'
 
 // 0. Yorkie Client declaration
 let client: yorkie.Client<yorkie.Indexable>
