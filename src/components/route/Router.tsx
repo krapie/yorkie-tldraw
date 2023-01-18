@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../login/Login";
-import YorkieTldrawCustomCursorEditor from "../mutliplayer/YorkieTldrawCustomCursorEditor";
+import YorkieTldrawEditor from "../mutliplayer/YorkieTldrawEditor";
 import YorkieTldrawEditorAsset from "../mutliplayer/YorkieTldrawEditorAsset";
 
 const VERSION: string = "v0.5";
@@ -13,7 +13,7 @@ export default function Router() {
           <Route path="/" element={<Login />} />
           <Route
             path={`/editor-${VERSION}`}
-            element={<YorkieTldrawCustomCursorEditor />}
+            element={<YorkieTldrawEditor />}
           />
           {/* Use this route if asset storage is availiable 
           <Route path={`/editor-${VERSION}`} element={<YorkieTldrawEditorAsset />} />

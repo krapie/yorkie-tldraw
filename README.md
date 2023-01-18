@@ -127,6 +127,10 @@ Yorkie references
 
 ## Updates
 
+### **v0.5.1**
+
+- Structure: Refractor & restructure project
+
 ### **v0.5.0**
 
 - tldraw: Update tldarw version to 1.26.3

@@ -1,5 +1,6 @@
 import { Tldraw, useFileSystem } from "@tldraw/tldraw";
 import { useMultiplayerState } from "./hooks/useMultiplayerState";
+import CustomCursor from '../custom/CustomCursor';
 
 /*
 This demo shows how to integrate TLDraw with a multiplayer room
@@ -16,10 +17,12 @@ Amazon AWS S3. Further demo will be implemented.
 function Editor({ roomId, userName }: { roomId: string; userName: string }) {
   const fileSystemEvents = useFileSystem();
   const { ...events } = useMultiplayerState(roomId, userName);
+  const component = { Cursor: CustomCursor };
 
   return (
     <div>
       <Tldraw
+        components={component}
         autofocus
         disableAssets={true}
         showPages={false}
@@ -41,7 +44,7 @@ export default function YorkieTldrawEditor() {
         }
         userName={
           sessionStorage.getItem("userName") === null
-            ? "Anony"
+            ? "Anonymous"
             : (sessionStorage.getItem("userName") as string)
         }
       />

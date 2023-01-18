@@ -1,6 +1,6 @@
 {
   "name": "yorkie-tldraw",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "description": "tldraw multiplayer project using yorkie",
   "author": "krapi0314",
@@ -20,7 +20,6 @@
     "@react-hook/throttle": "^2.2.0",
     "@tldraw/tldraw": "1.26.3",
     "yorkie-js-sdk": "^0.2.15",
-    "mobx": "^6.6.1",
     "randomcolor": "^0.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

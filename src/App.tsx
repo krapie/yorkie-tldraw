@@ -1,5 +1,5 @@
 import Router from "./components/route/Router";
-import "./styles.css";
+import './App.css';
 
 export default function App() {
   return (
