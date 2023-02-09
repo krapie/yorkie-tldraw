@@ -34,7 +34,7 @@ If you are new to yorkie or tldraw and you just want to play around, just clone 
 
 ```bash
 # clone repository
-git clone https://github.com/Krapi0314/yorkie-tldraw.git
+git clone https://github.com/krapie/yorkie-tldraw.git
 
 # change to project directory
 cd yorkie-tldraw
