@@ -24,7 +24,7 @@ export default function Login() {
       userName === undefined ? "Anonymous" : userName
     );
     sessionStorage.setItem("room", room === undefined ? "room1" : room);
-    navigate("/editor-v0.5");
+    navigate("/editor-v0.6");
   };
 
   const renderForm = (

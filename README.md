@@ -19,7 +19,6 @@ Building real-time collaboration whiteboard using yorkie & tldraw (demo) Youtube
   - About Yorkie
   - Deployment
 - Roadmap
-- Uploads
 
 ## Getting Started
 
@@ -110,54 +109,18 @@ Yorkie references
 - [x] tldraw + yorkie Step 2: yorkie presence with peer awareness
 - [x] yorkie server stablization: yorkie clustering server on AWS using LB, ec2s, and etcd
 - [x] client optimization: loading bar, throttle on overheaded callbacks
-- [x] client customization: customize tldraw core: cursor with name
+- [x] customize tldraw core: cursor with name
 
 ### **Phase 2**
 
-- [x] enable asset (image/video) feature
+- [x] assets: enable asset (image/video) feature
   - [x] setting storage bucket for media files (ex: AWS S3)
     - [x] setting up presigned url with lambda (optional)
-- [ ] undoManager with Yorkie history API (not implemented)
+- [x] optimization: room loading performance improvement
+- [ ] undo/redo: undoManager with Yorkie history API (not implemented)
 
 ### **Phase 3**
 
 - [ ] implement creative interaction features in tldraw
   - [ ] collaborative reaction
   - [ ] …
-
-## Updates
-
-### **v0.5.1**
-
-- Structure: Refractor & restructure project
-
-### **v0.5.0**
-
-- tldraw: Update tldarw version to 1.26.3
-- tldraw Custom Cursor: change multiplayer cursor to tldarw's offical cursor
-
-### **v0.4.1**
-
-- Yorkie SaaS: Yorkie SaaS as API server
-- UX: Cursor-with-name resized
-
-### **v0.4**
-
-- Room: Room selection added
-- Security: HTTPS enforced
-- **Asset: Assets(image/video) feature enabled**
-
-### **v0.3**
-
-- **Peer awareness enhanced: Cursor with name implemented**
-
-### **v0.2**
-
-- Server: Yorkie server cluster mode on AWS
-- UX: Client loading bar on Yorkie setup
-- **UX: Throttle on `onChangePage()` callback**
-
-### **v0.1**
-
-- tldraw + yorkie Step 1: yorkie doc update TDType
-- tldraw + yorkie Step 2: yorkie presence with peer awareness
