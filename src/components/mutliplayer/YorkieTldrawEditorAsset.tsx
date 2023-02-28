@@ -38,7 +38,7 @@ export default function YorkieTldrawEditorAsset() {
         }
         userName={
           sessionStorage.getItem("userName") === null
-            ? "Anony"
+            ? "Anonymous"
             : (sessionStorage.getItem("userName") as string)
         }
       />
